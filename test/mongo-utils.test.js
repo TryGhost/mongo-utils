@@ -294,14 +294,14 @@ describe('Expand filters', () => {
     });
 
     it('should NOT match similarly named filter keys', function () {
-        const filter = {tags:'hello'};
+        const filter = {tags: 'hello'};
         const expansions = [{
             key: 'tag',
             replacement: 'tags.slug',
             expansion: 'posts_tags.sort_order:0'
         }];
 
-        const processed = {tags:'hello'};
+        const processed = {tags: 'hello'};
 
         expandFilters(filter, expansions).should.eql(processed);
     });
@@ -340,7 +340,7 @@ describe('Expand filters', () => {
             {status: 'published'},
             {featured: true},
             {$and: [
-                {'tags.slug': {$in: [ 'en', 'es' ]}},
+                {'tags.slug': {$in: ['en', 'es']}},
                 {'posts_tags.sort_order': 0}]}
         ]};
 
@@ -422,7 +422,7 @@ describe('Expand filters', () => {
     });
 
     it('combine multiple expansions', function () {
-        const filter = {$and:[{primary_tag:"yalla"},{primary_author:"hulk"}]};
+        const filter = {$and: [{primary_tag: 'yalla'},{primary_author: 'hulk'}]};
 
         const expansions = [{
             key: 'primary_tag',
