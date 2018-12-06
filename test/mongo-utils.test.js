@@ -243,12 +243,12 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: `posts_tags.sort_order:0`
+            expansion: {order: 0}
         }];
 
         const processed = {$and: [
             {'tags.slug': 'en'},
-            {'posts_tags.sort_order': 0}
+            {order: 0}
         ]};
 
         expandFilters(filter, expansions).should.eql(processed);
@@ -259,13 +259,13 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: 'posts_tags.sort_order:0+tags.visibility:public'
+            expansion: {$and: [{order: 0}, {visibility: 'public'}]}
         }];
 
         const processed = {$and: [
             {'tags.slug': 'en'},
-            {'posts_tags.sort_order': 0},
-            {'tags.visibility': 'public'}
+            {order: 0},
+            {visibility: 'public'}
         ]};
 
         expandFilters(filter, expansions).should.eql(processed);
@@ -280,14 +280,14 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: `posts_tags.sort_order:0`
+            expansion: {order: 0}
         }];
 
         const processed = {$and: [
             {'tags.slug': {
                 $ne: 'great-movies'
             }},
-            {'posts_tags.sort_order': 0}
+            {order: 0}
         ]};
 
         expandFilters(filter, expansions).should.eql(processed);
@@ -298,7 +298,7 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'tag',
             replacement: 'tags.slug',
-            expansion: 'posts_tags.sort_order:0'
+            expansion: {order: 0}
         }];
 
         const processed = {tags: 'hello'};
@@ -313,12 +313,12 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: 'posts_tags.sort_order:0'
+            expansion: {order: 0}
         }];
 
         const processed = {$and: [
             {'tags.slug': {$in: ['en', 'es']}},
-            {'posts_tags.sort_order': 0}
+            {order: 0}
         ]};
 
         expandFilters(filter, expansions).should.eql(processed);
@@ -333,7 +333,7 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: 'posts_tags.sort_order:0'
+            expansion: {order: 0}
         }];
 
         const processed = {$and: [
@@ -341,7 +341,7 @@ describe('Expand filters', () => {
             {featured: true},
             {$and: [
                 {'tags.slug': {$in: ['en', 'es']}},
-                {'posts_tags.sort_order': 0}]}
+                {order: 0}]}
         ]};
 
         expandFilters(filter, expansions).should.eql(processed);
@@ -357,19 +357,19 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: 'posts_tags.sort_order:0'
+            expansion: {order: 0}
         }];
 
         const processed = {$and: [
             {status: 'published'},
             {$and: [
                 {'tags.slug': 'de'},
-                {'posts_tags.sort_order': 0}
+                {order: 0}
             ]},
             {featured: true},
             {$and: [
                 {'tags.slug': 'en'},
-                {'posts_tags.sort_order': 0}
+                {order: 0}
             ]}
         ]};
 
@@ -391,30 +391,30 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: 'posts_tags.sort_order:0'
+            expansion: {order: 0}
         }];
 
         const processed = {$and: [
             {status: 'published'},
             {$and: [
                 {'tags.slug': 'de'},
-                {'posts_tags.sort_order': 0}
+                {order: 0}
             ]},
             {featured: true},
             {$or: [
                 {$and: [
                     {'tags.slug': 'us'},
-                    {'posts_tags.sort_order': 0}
+                    {order: 0}
                 ]},
                 {$and: [
                     {'tags.slug': 'es'},
-                    {'posts_tags.sort_order': 0}
+                    {order: 0}
                 ]}
             ]}
         ], $or: [
             {$and: [
                 {'tags.slug': 'pl'},
-                {'posts_tags.sort_order': 0}
+                {order: 0}
             ]}
         ]};
 
@@ -427,11 +427,11 @@ describe('Expand filters', () => {
         const expansions = [{
             key: 'primary_tag',
             replacement: 'tags.slug',
-            expansion: `posts_tags.sort_order:0`
+            expansion: {order: 0}
         }, {
             key: 'primary_author',
             replacement: 'authors.slug',
-            expansion: `posts_authors.sort_order:0`
+            expansion: {order: 0}
         }];
 
         const processed = {
@@ -442,7 +442,7 @@ describe('Expand filters', () => {
                             'tags.slug': 'yalla'
                         },
                         {
-                            'posts_tags.sort_order': 0
+                            order: 0
                         }
                     ]
                 },
@@ -452,7 +452,7 @@ describe('Expand filters', () => {
                             'authors.slug': 'hulk'
                         },
                         {
-                            'posts_authors.sort_order': 0
+                            order: 0
                         }
                     ]
                 }
