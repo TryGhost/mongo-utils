@@ -767,6 +767,48 @@ describe('mapQuery', function () {
         });
     });
 
+    it('can modify both key and value', function () {
+        const filter = {
+            $and: [{
+                oh: 'no'
+            }, {
+                oh: 'yes'
+            }, {
+                untouched: {
+                    $in: ['a', 'b']
+                }
+            }]
+        };
+
+        mongoUtils.mapQuery(filter, function (value, key) {
+            if (key === 'oh') {
+                if (value === 'no') {
+                    return {
+                        ['hey']: 'nay'
+                    };
+                } else if (value === 'yes') {
+                    return {
+                        ['hey']: 'ay'
+                    };
+                }
+            }
+
+            return {
+                [key]: value
+            };
+        }).should.eql({
+            $and: [{
+                hey: 'nay'
+            }, {
+                hey: 'ay'
+            }, {
+                untouched: {
+                    $in: ['a', 'b']
+                }
+            }]
+        });
+    });
+
     it('allows removal of queries by returning undefined', function () {
         const filter = {
             $and: [{
